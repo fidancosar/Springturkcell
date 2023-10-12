@@ -1,9 +1,5 @@
-package com.turkcell.spring.starter.entities.dtos;
+package com.turkcell.spring.starter.entities.dtos.product;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.turkcell.spring.starter.entities.Supplier;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

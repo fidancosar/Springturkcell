@@ -1,29 +1,24 @@
 package com.turkcell.spring.starter.business.concrets;
 
 import com.turkcell.spring.starter.business.abstracts.CategoryService;
-import com.turkcell.spring.starter.business.exception.BusinessException;
+import com.turkcell.spring.starter.core.exception.BusinessException;
 import com.turkcell.spring.starter.entities.Category;
-import com.turkcell.spring.starter.entities.dtos.CategoryForAddDto;
-import com.turkcell.spring.starter.entities.dtos.CategoryForListingDto;
-import com.turkcell.spring.starter.entities.dtos.CategoryForUpdateDto;
+import com.turkcell.spring.starter.entities.dtos.category.CategoryForAddDto;
+import com.turkcell.spring.starter.entities.dtos.category.CategoryForListingDto;
+import com.turkcell.spring.starter.entities.dtos.category.CategoryForUpdateDto;
 import com.turkcell.spring.starter.repositories.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-
+@RequiredArgsConstructor
 public class CategoryServiceImp implements CategoryService {
     private final CategoryRepository categoryRepository;
-
-    @Autowired
-    public CategoryServiceImp(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
-
-
+    private final MessageSource messageSource;
 
 
     @Override
@@ -51,11 +46,6 @@ public class CategoryServiceImp implements CategoryService {
     }
 
     @Override
-    public List<Category> searchNative(String categoryName) {
-        return categoryRepository.searchNative(categoryName);
-    }
-
-    @Override
     public Long countCategory() {
         return categoryRepository.countCategory();
     }
@@ -72,25 +62,21 @@ public class CategoryServiceImp implements CategoryService {
 
     @Override
     public void add(CategoryForAddDto request) {
-        // Business Rule => Aynı isimde iki kategori olmamalı
 
-//        descriptionWithSameNameShouldNotExist(request.getDescription());
-//        categoryWithSameNameShouldNotExist(request.getCategoryName());
-//        descriptionShouldNotMoreThan2Char(request.getDescription());
-        Category category = new Category();
+        categoryWithSameNameShouldNotExist(request.getCategoryName());
+        Category category = Category.builder().build();
         category.setCategoryName(request.getCategoryName());
         category.setDescription(request.getDescription());
 
-        // Mapleme işlemi business içerisinde
         categoryRepository.save(category);
     }
-
     @Override
-    public Category updateDto(int id, CategoryForUpdateDto categoryForUpdateDto) {
-        Category category = categoryRepository.findById(id).orElseThrow();
-        category.setCategoryName(categoryForUpdateDto.getCategoryName());
-        category.setDescription(categoryForUpdateDto.getDescription());
-        return categoryRepository.save(category);
+    public void update(CategoryForUpdateDto request) {
+        Category categoryToUpdate = returnCategoryByIdIfExists(request.getId());
+        categoryToUpdate.setDescription(request.getDescription());
+        categoryToUpdate.setCategoryName(request.getCategoryName());
+
+        categoryRepository.save(categoryToUpdate);
     }
     @Override
     public List<CategoryForListingDto> getAll() {
@@ -106,8 +92,19 @@ public class CategoryServiceImp implements CategoryService {
     }
     @Override
     public void deleteByCategoryId(int deleteId) {
-        categoryRepository.deleteById(deleteId);
 
+        Category categoryToDelete=returnCategoryByIdIfExists(deleteId);
+
+
+        categoryRepository.delete(categoryToDelete);
+
+    }
+    private Category returnCategoryByIdIfExists(int id){
+        Category categoryToDelete = categoryRepository.findById(id).orElse(null);
+        if(categoryToDelete==null)
+            throw new BusinessException(
+                    messageSource.getMessage("categoryDoesNotExistWithGivenId", new Object[] {id}, LocaleContextHolder.getLocale()));
+        return categoryToDelete;
     }
 
 
@@ -131,7 +128,3 @@ public class CategoryServiceImp implements CategoryService {
         }
     }
 }
-
-
-
-

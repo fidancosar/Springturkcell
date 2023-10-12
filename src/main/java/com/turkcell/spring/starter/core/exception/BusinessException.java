@@ -1,4 +1,4 @@
-package com.turkcell.spring.starter.business.exception;
+package com.turkcell.spring.starter.core.exception;
 
 public class BusinessException extends RuntimeException {
     public BusinessException(String message) {

@@ -14,9 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name="products")
 @Entity
+@Builder
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="product_id")
     private int productId;
 
@@ -55,6 +56,7 @@ public class Product {
     @JoinColumn(name="supplier_id")
     @JsonIgnore
     private Supplier suppliers;
+
 
 
 }

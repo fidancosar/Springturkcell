@@ -2,6 +2,7 @@ package com.turkcell.spring.starter.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,11 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name="suppliers")
 public class Supplier {
 
     @Id
-    @GeneratedValue
     @Column(name="supplier_id")
     private short supplierId;
 

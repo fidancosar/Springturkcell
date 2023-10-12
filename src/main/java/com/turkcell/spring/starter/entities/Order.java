@@ -3,9 +3,12 @@ package com.turkcell.spring.starter.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.cglib.core.Local;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -13,28 +16,29 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name="orders")
 @Entity
+@Builder
 
 public class Order {
     @Id
-    @GeneratedValue
     @Column(name="order_id")
-    private int orderId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private short orderId;
 
 
     @Column(name="order_date")
-    private String orderDate;
+    private LocalDate orderDate;
 
     @Column(name="required_date")
-    private String requiredDate;
+    private LocalDate requiredDate;
 
     @Column(name="shipped_date")
-    private String shippedDate;
+    private LocalDate shippedDate;
 
     @Column(name="ship_via")
     private short shipVia;
 
     @Column(name="freight")
-    private String freight;
+    private double freight;
 
     @Column(name="ship_name")
     private String shipName;

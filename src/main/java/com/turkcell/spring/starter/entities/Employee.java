@@ -2,20 +2,24 @@ package com.turkcell.spring.starter.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name="employees")
 public class Employee {
 
     @Id
-    @GeneratedValue
     @Column(name="employee_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private short employeeId;
 
     @Column(name="last_name")
@@ -31,10 +35,10 @@ public class Employee {
     private String titleOfCourtesy;
 
     @Column(name="birth_date")
-    private String birthDate;
+    private LocalDate birthDate;
 
     @Column(name="hire_date")
-    private String hireDate;
+    private LocalDate hireDate;
 
     @Column(name="address")
     private String address;
@@ -56,7 +60,6 @@ public class Employee {
 
     @Column(name="photo")
     private String extension;
-
 
     @Column(name="reports_to")
     private Short reportsTo;

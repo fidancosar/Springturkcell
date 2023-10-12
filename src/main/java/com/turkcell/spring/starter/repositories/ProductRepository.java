@@ -1,16 +1,13 @@
 package com.turkcell.spring.starter.repositories;
 
-import com.turkcell.spring.starter.entities.Category;
 import com.turkcell.spring.starter.entities.Product;
-import com.turkcell.spring.starter.entities.dtos.ProductForGetByIdDto;
-import com.turkcell.spring.starter.entities.dtos.ProductForListingDto;
-import com.turkcell.spring.starter.entities.dtos.ProductForUpdateDto;
+import com.turkcell.spring.starter.entities.dtos.product.ProductForGetByIdDto;
+import com.turkcell.spring.starter.entities.dtos.product.ProductForListingDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product,Integer> {
     List<Product> findByProductNameContaining(String productName);
@@ -53,12 +50,12 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
     List<Product> groupById ();
 
     @Query(value = "select new " +
-            "com.turkcell.spring.starter.entities.dtos.ProductForListingDto(p.productId,p.productName,p.quantityPerUnit,p.unitPrice,p.unitInStock,p.unitOnOrder,p.discontinued) from Product p")
+            "com.turkcell.spring.starter.entities.dtos.ProductDtos.ProductForListingDto(p.productId,p.productName,p.quantityPerUnit,p.unitPrice,p.unitInStock,p.unitOnOrder,p.discontinued) from Product p")
     List<ProductForListingDto> getListingProduct();
 
 
     @Query(value = "select new " +
-            "com.turkcell.spring.starter.entities.dtos.ProductForGetByIdDto" +
+            "com.turkcell.spring.starter.entities.dtos.ProductDtos.ProductForGetByIdDto" +
             "(p.productId, p.productName, p.quantityPerUnit ,p.unitPrice, p.unitInStock, " +
             "p.unitOnOrder, p.reorderLevel) from Product p where p.productId=:productId")
     List<ProductForGetByIdDto> getListingProductId(int productId);
@@ -69,7 +66,7 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
 //    Product productForOrder(int id);
 
 //    @Query(value = "select new " +
-//            "com.turkcell.spring.starter.entities.dtos.ProductForUpdateDto(p.productId, p.productName, p.quantityPerUnit ,p.unitPrice, p.unitInStock, p.unitOnOrder, p.reorderLevel) from Product p where p.productId=:productId")
+//            "com.turkcell.spring.starter.entities.dtos.ProductDtos.ProductForUpdateDto(p.productId, p.productName, p.quantityPerUnit ,p.unitPrice, p.unitInStock, p.unitOnOrder, p.reorderLevel) from Product p where p.productId=:productId")
 //    ProductForUpdateDto updateProduct(ProductForUpdateDto productForUpdateDto);
 
 

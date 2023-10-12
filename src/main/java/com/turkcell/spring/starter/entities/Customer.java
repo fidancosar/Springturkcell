@@ -2,18 +2,20 @@ package com.turkcell.spring.starter.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name="customers")
 public class Customer {
-    @Id
+    @Id()
     @GeneratedValue
     @Column(name = "customer_id")
     private String customerId;

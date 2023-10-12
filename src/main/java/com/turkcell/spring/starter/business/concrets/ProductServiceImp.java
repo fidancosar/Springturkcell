@@ -1,35 +1,33 @@
 package com.turkcell.spring.starter.business.concrets;
 
 import com.turkcell.spring.starter.business.abstracts.ProductService;
-import com.turkcell.spring.starter.business.exception.BusinessException;
-import com.turkcell.spring.starter.entities.Category;
+import com.turkcell.spring.starter.core.exception.BusinessException;
 import com.turkcell.spring.starter.entities.Product;
-import com.turkcell.spring.starter.entities.dtos.ProductForAddDto;
-import com.turkcell.spring.starter.entities.dtos.ProductForGetByIdDto;
-import com.turkcell.spring.starter.entities.dtos.ProductForListingDto;
-import com.turkcell.spring.starter.entities.dtos.ProductForUpdateDto;
+import com.turkcell.spring.starter.entities.dtos.product.ProductForAddDto;
+import com.turkcell.spring.starter.entities.dtos.product.ProductForGetByIdDto;
+import com.turkcell.spring.starter.entities.dtos.product.ProductForListingDto;
+import com.turkcell.spring.starter.entities.dtos.product.ProductForUpdateDto;
 import com.turkcell.spring.starter.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
-
+@RequiredArgsConstructor
 public class ProductServiceImp implements ProductService {
     private ProductRepository productRepository;
-    @Autowired
-    public ProductServiceImp(ProductRepository productRepository) {
+    private ModelMapper modelMapper;
+
+    public ProductServiceImp(ProductRepository productRepository, ModelMapper modelMapper) {
         this.productRepository = productRepository;
+        this.modelMapper = modelMapper;
     }
 
-
-    public Product addProduct(Product product){
-        return productRepository.save(product);
-    }
     public List<ProductForListingDto> getAll() {
         return productRepository.getListingProduct();
     }
@@ -47,11 +45,6 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public List<Product> search(String productName) {
-        return productRepository.search(productName);
-    }
-
-    @Override
     public List<Product> searchNative(String productName) {
         return productRepository.searchNative(productName);
     }
@@ -63,20 +56,12 @@ public class ProductServiceImp implements ProductService {
         return productRepository.findProductNames();
     }
 
-    @Override
-    public List<Integer> findProductId() {
-        return productRepository.findProductId();
-    }
 
     @Override
     public List<Product> topCheapest(Integer topNumber) {
         return productRepository.topCheapest(topNumber);
     }
 
-    @Override
-    public List<Product> pcGet(int id) {
-        return productRepository.pcGet(id);
-    }
 
     @Override
     public List<Product> maxAndMin() {
@@ -86,11 +71,6 @@ public class ProductServiceImp implements ProductService {
     @Override
     public List<Product> minManUnit(Integer minUnit, Integer maxUnit) {
         return productRepository.minManUnit(minUnit, maxUnit);
-    }
-
-    @Override
-    public List<Product> chaiUnit(double unitPrice) {
-        return productRepository.chaiUnit(unitPrice);
     }
 
     @Override
@@ -106,11 +86,11 @@ public class ProductServiceImp implements ProductService {
     @Override
     public List<ProductForGetByIdDto> getListingProductId(int id) {
 
-      List<ProductForGetByIdDto> getByDto=productRepository.getListingProductId(id);
-      if(getByDto.isEmpty()){
-          throw new EntityNotFoundException("Aranan id'ye ait bir ürün yok");
-      }
-      return getByDto;
+        List<ProductForGetByIdDto> getByDto=productRepository.getListingProductId(id);
+        if(getByDto.isEmpty()){
+            throw new EntityNotFoundException("Aranan id'ye ait bir ürün yok");
+        }
+        return getByDto;
     }
 
 
@@ -131,46 +111,40 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
+    @Transactional
     public void add(ProductForAddDto request) {//burası voidti Product yaptım.
-        productWithSameNameShouldNotExist(request.getProductName());
-        productNameShouldNotLongerThanThreeCharacters(request.getProductName());
-        unitPricekShouldNotBeBiggerThan200(request.getUnitPrice());
-        productNameIsChangShouldNotAddNow(request.getProductName());
-        Product product=new Product();
-//        product.setProductId();
-        product.setProductName(request.getProductName());
-        product.setUnitPrice(request.getUnitPrice());
-        product.setUnitInStock(request.getUnitInStock());
-        product.setQuantityPerUnit(request.getQuantityPerUnit());
-        product.setReorderLevel(request.getReOrderLevel());
-       productRepository.save(product);
+
+//        productWithSameName(request.getProductName());
+//        productNameShouldNotLongerThanThreeCharacters(request.getProductName());
+//        unitPricekShouldNotBeBiggerThan200(request.getUnitPrice());
+//        productNameIsChangShouldNotAddNow(request.getProductName());
+//        Product newProduct=Product.builder()
+//                .productName(request.getProductName())
+//                .unitPrice(request.getUnitPrice())
+//                .unitInStock(request.getUnitInStock())
+//                .categories(Category.builder().categoryId(request.getCategoryId()).build())
+//                .suppliers(Supplier.builder().supplierId(request.getSupplierId()).build())
+//                .discontinued(0)
+//                .build();
+        Product productFromAutoMapping = modelMapper.map(request, Product.class);
+
+
+        productFromAutoMapping =productRepository.save(productFromAutoMapping);
+//        Product product=new Product();
+////        product.setProductId();
+//        product.setProductName(request.getProductName());
+//        product.setUnitPrice(request.getUnitPrice());
+//        product.setUnitInStock(request.getUnitInStock());
+//        product.setQuantityPerUnit(request.getQuantityPerUnit());
+//        product.setReorderLevel(request.getReOrderLevel());
+//       productRepository.save(product);
 
     }
 
-    @Override
-    public Optional<Product> getId(int id) {//Tekrar bakılacak
-       Optional<Product> product=productRepository.findById(id);
-       try {
-           if(product.isEmpty()){
-               throw new EntityNotFoundException("geçerli bir id girin");
-
-           }
-       }catch (EntityNotFoundException ex){
-           throw ex;
-       }
-return product;
-    }
-
-    @Override
-    public Product findByProductName(String productName) {
-        return productRepository.findByProductName(productName);
-
-    }
-
-    private void productWithSameNameShouldNotExist(String productName) {
-        Product productWithSameName = productRepository.findByProductName(productName);
-        if (productWithSameName != null) {
-            throw new BusinessException("Aynı ürün isminden 2 tane bulunamaz.");
+    public void productWithSameName(String productName){
+        Product  productWithSameName=productRepository.findByProductName(productName);
+        if(productWithSameName!=null){
+            throw new BusinessException("Aynı kategoride başka ürün bulunamaz");
         }
     }
     private void productNameShouldNotLongerThanThreeCharacters(String productName){

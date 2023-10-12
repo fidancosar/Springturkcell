@@ -1,18 +1,21 @@
 package com.turkcell.spring.starter.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="order_details")
 @Entity
+@Builder
 public class OrderDetail {
-
+    @Id ()
+    @ManyToOne
+    @JoinColumn(name="id")
+    @JsonIgnore
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int orders;
 
     @Column(name="unit_price")
     private double unitPrice;
@@ -23,17 +26,16 @@ public class OrderDetail {
     @Column(name="discount")
     private float discount;
 
+    @ManyToOne
+    @JoinColumn(name="order_id")
+    private Order order;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     @JsonIgnore
     private Product products;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name="order_id")
-    @JsonIgnore
-    private Order orders;
+
 
 
 }
