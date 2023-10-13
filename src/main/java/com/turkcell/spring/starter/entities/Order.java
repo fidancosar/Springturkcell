@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,42 +19,42 @@ import java.util.List;
 
 public class Order {
     @Id
-    @Column(name="order_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private short orderId;
+    @Column(name = "order_id")
+    private int orderId;//derste short denildi.
 
 
-    @Column(name="order_date")
-    private LocalDate orderDate;
+    @Column(name = "order_date")
+    private LocalDate orderDate;//localDate olarak da tanımlanabilir. allta olan dateler de öyle
 
-    @Column(name="required_date")
+    @Column(name = "required_date")
     private LocalDate requiredDate;
 
-    @Column(name="shipped_date")
+    @Column(name = "shipped_date")
     private LocalDate shippedDate;
 
-    @Column(name="ship_via")
-    private short shipVia;
+//    @Column(name="ship_via")
+//    private short shipVia;
 
-    @Column(name="freight")
-    private double freight;
+    @Column(name = "freight")
+    private String freight;//double da alınabilir.float da olur.real ise karşılığı
 
-    @Column(name="ship_name")
+    @Column(name = "ship_name")
     private String shipName;
 
-    @Column(name="ship_address")
+    @Column(name = "ship_address")
     private String shipAddress;
 
-    @Column(name="ship_city")
+    @Column(name = "ship_city")
     private String shipCity;
 
-    @Column(name="ship_region")
+    @Column(name = "ship_region")
     private String shipRegion;
 
-    @Column(name="ship_postal_code")
+    @Column(name = "ship_postal_code")
     private String shipPostalCode;
 
-    @Column(name="ship_country")
+    @Column(name = "ship_country")
     private String shipCountry;
 
 
@@ -63,21 +62,17 @@ public class Order {
     private List<OrderDetail> orderDetails;
 
     @ManyToOne
-    @JoinColumn(name="customer_id")
+    @JoinColumn(name = "customer_id")
     @JsonIgnore
     private Customer customers;
 
     @ManyToOne
-    @JoinColumn(name="employee_id")
+    @JoinColumn(name = "employee_id")
     @JsonIgnore
     private Employee employees;
 
     @ManyToOne
-    @JoinColumn(name="shipper_id")
+    @JoinColumn(name = "shipper_id")
     @JsonIgnore
     private Shipper shippers;
-
-
-
-
 }

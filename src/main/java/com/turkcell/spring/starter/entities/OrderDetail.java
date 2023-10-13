@@ -10,15 +10,14 @@ import lombok.*;
 @Entity
 @Builder
 public class OrderDetail {
-    @Id ()
-    @ManyToOne
-    @JoinColumn(name="id")
-    @JsonIgnore
+
+    @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int orders;
+    private int id;
 
     @Column(name="unit_price")
-    private double unitPrice;
+    private float unitPrice;
 
     @Column(name="quantity")
     private short quantity;
@@ -27,15 +26,14 @@ public class OrderDetail {
     private float discount;
 
     @ManyToOne
-    @JoinColumn(name="order_id")
-    private Order order;
-
-    @ManyToOne
     @JoinColumn(name = "product_id")
     @JsonIgnore
     private Product products;
 
 
-
+    @ManyToOne
+    @JoinColumn(name="order_id")
+    @JsonIgnore
+    private Order orders;
 
 }

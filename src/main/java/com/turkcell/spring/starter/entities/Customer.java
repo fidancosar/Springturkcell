@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@AllArgsConstructor
+@Entity
 @Table(name="customers")
+@Builder
 public class Customer {
-    @Id()
+    @Id
     @GeneratedValue
     @Column(name = "customer_id")
     private String customerId;

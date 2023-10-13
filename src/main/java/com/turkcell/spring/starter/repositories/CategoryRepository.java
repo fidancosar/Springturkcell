@@ -14,8 +14,6 @@ public interface CategoryRepository extends JpaRepository<Category,Integer> {
     @Query(value="Select c FROM Category c where c.categoryName LIKE %:categoryName%", nativeQuery = false)
     List<Category> search (String categoryName);
 
-    @Query(value = "Select * from category where category_name LIKE %:categoryName%", nativeQuery = true)
-    List<Category> searchNative (String categoryName);
 
     @Query(value="Select COUNT(c.categoryId) FROM Category c ", nativeQuery = false)
     Long countCategory();
@@ -27,7 +25,7 @@ public interface CategoryRepository extends JpaRepository<Category,Integer> {
     List<Object[]> findCategoryAndProductDetails();
 
     @Query(value = "select new " +
-            "com.turkcell.spring.starter.entities.dtos.CategoryDtos.CategoryForListingDto(c.categoryId,c.categoryName) from Category c ")
+            "com.turkcell.spring.starter.entities.dtos.categoryDto.CategoryForListingDto(c.categoryId,c.categoryName) from Category c ")
     List<CategoryForListingDto> getForListing();
 
     Category findByCategoryName(String a);

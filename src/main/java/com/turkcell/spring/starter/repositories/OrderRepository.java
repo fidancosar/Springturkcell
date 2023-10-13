@@ -13,14 +13,14 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order,Integer> {
 
     @Query(value = "select new " +
-            "com.turkcell.spring.starter.entities.dtos.OrderDtos.OrderForListingDto" +
-            "(o.orderId,o.orderDate, o.requiredDate, o.shippedDate, o.shipVia, o.freight)" +
+            "com.turkcell.spring.starter.entities.dtos.orderDto.OrderForListingDto" +
+            "(o.orderId,o.orderDate, o.requiredDate, o.shippedDate, o.freight)" +
             "from Order o")
     List<OrderForListingDto> getOrder();
 
     @Query(value = "select new " +
-            "com.turkcell.spring.starter.entities.dtos.OrderDtos.OrderForGetById" +
-            "(o.orderId,o.orderDate, o.requiredDate, o.shippedDate, o.shipVia, o.freight)" +
+            "com.turkcell.spring.starter.entities.dtos.orderDto.OrderForGetById" +
+            "(o.orderId,o.orderDate, o.requiredDate, o.shippedDate, o.freight)" +
             "from Order o where o.orderId= :orderId")
 
     OrderForGetById orderId( int orderId);
@@ -32,7 +32,7 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
             "where p.product_id = :product_id", nativeQuery = true)
     List<OrderDetail> addOrderDetails(int product_id, Product product);
 
-@Query(value = "select o.order_id, p.product_name, od.quantity from orders o inner join " +
-        "order_details od on o.order_id=od.order_id inner join Products p on od.product_id=p.product_id", nativeQuery = true)
+    @Query(value = "select o.order_id, p.product_name, od.quantity from orders o inner join " +
+            "order_details od on o.order_id=od.order_id inner join Products p on od.product_id=p.product_id", nativeQuery = true)
     List<Object[]> getOrderProductName();
 }

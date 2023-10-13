@@ -9,6 +9,8 @@ import com.turkcell.spring.starter.entities.dtos.category.CategoryForUpdateDto;
 import java.util.List;
 
 public interface CategoryService {
+  Category update(int id, CategoryForUpdateDto request);
+
   List<CategoryForListingDto> getAll();
   Category addCategory(Category category);
   Category getByCategoryId(int categoryId);

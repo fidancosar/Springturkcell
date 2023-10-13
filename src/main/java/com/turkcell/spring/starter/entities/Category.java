@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name="category_id")
     private int categoryId;
 
@@ -25,9 +25,8 @@ public class Category {
 
     @Column(name="description")
     private String description;
-//
 
-    @OneToMany( mappedBy = "categories")
+    @OneToMany( mappedBy = "categories", cascade = CascadeType.MERGE)
     private List<Product> products;//bir category birsürü producta sahip
 
 

@@ -25,4 +25,3 @@ public class CustomerCustomerDemo {
     @JsonIgnore
     private CustomerDemographic customerDemographics;
 }
-

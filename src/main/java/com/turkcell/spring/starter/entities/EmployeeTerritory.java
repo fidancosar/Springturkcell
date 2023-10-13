@@ -13,21 +13,15 @@ import lombok.NoArgsConstructor;
 @Table(name="employee_territories")
 public class EmployeeTerritory {
 
-
     @Id
     @ManyToOne
     @JoinColumn(name="employee_id")
     @JsonIgnore
     private Employee employees;
 
-
-    //Id alacak mı burası??
     @ManyToOne
     @JoinColumn(name="territory_id")
     @JsonIgnore
     private Territory territories;
 }
-
-
-
 

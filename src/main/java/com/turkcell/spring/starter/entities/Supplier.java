@@ -12,11 +12,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Builder
 @Table(name="suppliers")
+@Builder
 public class Supplier {
 
     @Id
+    @GeneratedValue
     @Column(name="supplier_id")
     private short supplierId;
 

@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name="product_id")
     private int productId;
 
@@ -33,7 +33,6 @@ public class Product {
 
     @Column(name="unit_in_stock")
     private Short unitInStock;
-
 
     @Column(name="unit_on_order")
     private Short unitOnOrder;
@@ -56,7 +55,6 @@ public class Product {
     @JoinColumn(name="supplier_id")
     @JsonIgnore
     private Supplier suppliers;
-
 
 
 }

@@ -13,13 +13,13 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Table(name="employees")
+@Builder
 public class Employee {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="employee_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private short employeeId;
 
     @Column(name="last_name")
@@ -38,7 +38,7 @@ public class Employee {
     private LocalDate birthDate;
 
     @Column(name="hire_date")
-    private LocalDate hireDate;
+    private String hireDate;
 
     @Column(name="address")
     private String address;
@@ -60,6 +60,7 @@ public class Employee {
 
     @Column(name="photo")
     private String extension;
+
 
     @Column(name="reports_to")
     private Short reportsTo;

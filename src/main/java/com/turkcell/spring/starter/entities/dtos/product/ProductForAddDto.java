@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductForAddDto {
-    private int productId;
+
 
     @Size(min=3)
     private String productName;
