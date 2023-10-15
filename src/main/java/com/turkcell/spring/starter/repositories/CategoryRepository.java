@@ -25,7 +25,7 @@ public interface CategoryRepository extends JpaRepository<Category,Integer> {
     List<Object[]> findCategoryAndProductDetails();
 
     @Query(value = "select new " +
-            "com.turkcell.spring.starter.entities.dtos.categoryDto.CategoryForListingDto(c.categoryId,c.categoryName) from Category c ")
+            "com.turkcell.spring.starter.entities.dtos.category.CategoryForListingDto(c.categoryId,c.categoryName) from Category c ")
     List<CategoryForListingDto> getForListing();
 
     Category findByCategoryName(String a);

@@ -90,7 +90,7 @@ public class CategoryServiceImp implements CategoryService {
     public Category update(int id, CategoryForUpdateDto request) {
 
         Category categorys=categoryRepository.findById(id).orElseThrow();
-        modelMapper.getConfiguration().setAmbiguityIgnored(true).setMatchingStrategy(MatchingStrategies.STRICT);
+        modelMapper.getConfiguration().setAmbiguityIgnored(true).setMatchingStrategy(MatchingStrategies.LOOSE);
         Category category=modelMapper.map(request, Category.class);
         return categoryRepository.save(category);
     }

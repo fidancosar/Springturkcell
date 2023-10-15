@@ -25,13 +25,13 @@ public class Order {
 
 
     @Column(name = "order_date")
-    private LocalDate orderDate;//localDate olarak da tanımlanabilir. allta olan dateler de öyle
+    private String orderDate;
 
     @Column(name = "required_date")
-    private LocalDate requiredDate;
+    private String requiredDate;
 
     @Column(name = "shipped_date")
-    private LocalDate shippedDate;
+    private String shippedDate;
 
 //    @Column(name="ship_via")
 //    private short shipVia;

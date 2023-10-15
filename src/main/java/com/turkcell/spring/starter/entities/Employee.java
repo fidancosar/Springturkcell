@@ -35,7 +35,7 @@ public class Employee {
     private String titleOfCourtesy;
 
     @Column(name="birth_date")
-    private LocalDate birthDate;
+    private String birthDate;
 
     @Column(name="hire_date")
     private String hireDate;

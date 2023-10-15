@@ -13,13 +13,13 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order,Integer> {
 
     @Query(value = "select new " +
-            "com.turkcell.spring.starter.entities.dtos.orderDto.OrderForListingDto" +
+            "com.turkcell.spring.starter.entities.dtos.order.OrderForListingDto" +
             "(o.orderId,o.orderDate, o.requiredDate, o.shippedDate, o.freight)" +
             "from Order o")
     List<OrderForListingDto> getOrder();
 
     @Query(value = "select new " +
-            "com.turkcell.spring.starter.entities.dtos.orderDto.OrderForGetById" +
+            "com.turkcell.spring.starter.entities.dtos.order.OrderForGetById" +
             "(o.orderId,o.orderDate, o.requiredDate, o.shippedDate, o.freight)" +
             "from Order o where o.orderId= :orderId")
 

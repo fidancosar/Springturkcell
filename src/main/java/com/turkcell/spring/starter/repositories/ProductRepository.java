@@ -43,12 +43,12 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
     List<Product> groupById ();
 
     @Query(value = "select new " +
-            "com.turkcell.spring.starter.entities.dtos.productDto.ProductForListingDto(p.productId,p.productName,p.quantityPerUnit,p.unitPrice,p.unitInStock,p.unitOnOrder,p.discontinued) from Product p")
+            "com.turkcell.spring.starter.entities.dtos.product.ProductForListingDto(p.productId,p.productName,p.quantityPerUnit,p.unitPrice,p.unitInStock,p.unitOnOrder,p.discontinued) from Product p")
     List<ProductForListingDto> getListingProduct();
 
 
     @Query(value = "select new " +
-            "com.turkcell.spring.starter.entities.dtos.productDto.ProductForGetByIdDto" +
+            "com.turkcell.spring.starter.entities.dtos.product.ProductForGetByIdDto" +
             "(p.productId, p.productName, p.quantityPerUnit ,p.unitPrice, p.unitInStock, " +
             "p.unitOnOrder, p.reorderLevel) from Product p where p.productId=:productId")
     List<ProductForGetByIdDto> getListingProductId(int productId);
