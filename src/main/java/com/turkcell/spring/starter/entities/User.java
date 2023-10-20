@@ -27,7 +27,7 @@ public class User implements UserDetails {
     private String name;
     @Column(name="last_name")
     private String lastName;
-    private String userName;
+    private String username;
     private String password;
     private String role;
 

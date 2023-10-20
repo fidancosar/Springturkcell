@@ -26,7 +26,7 @@ public class AuthServiceImp implements AuthService {
                 .name(request.getName())
                 .lastName(request.getLastName())
                 .role("USER")
-                .userName(request.getUsername())
+                .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
 
